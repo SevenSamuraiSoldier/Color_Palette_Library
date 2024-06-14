@@ -222,7 +222,10 @@
     // Replace spaces with underscores
     var fileNameWithUnderscores = fileNameWithoutExtension.split('%20').join('_');
     if(fileNameWithUnderscores.includes("index")){
+      console.log("before: " + fileNameWithUnderscores);
       fileNameWithUnderscores= "Color Palette Library";
+      console.log("After: " + fileNameWithUnderscores);
+      
     }
 
     // Update the document title with the file name (without extension)
