@@ -12,4 +12,4 @@ Feel free to add your comments or suggestions for improving the app.
 
 Check the application on the following link:
 
-https://sevensamuraisoldier.github.io//
+https://sevensamuraisoldier.github.io/Color_Palette_Library/
