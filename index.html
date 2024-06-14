@@ -186,10 +186,14 @@
       opacity: 70%;
       transform: scale(1.5);
     }
+    h1 {
+      color: #646f77;
+    }
 
   </style>
 </head>
 <body>
+  <h1>Color Palette Library</h1>
   <input type="color" id="master-div-color-picker" value="#e4efe8" title="Select Color for Palette Box">
   <div class="super-ultra-panel">
     <div class="super-div-panel">
@@ -225,7 +229,7 @@
     if(fileNameWithUnderscores.includes("index")){
       console.log("before: " + fileNameWithUnderscores);
       fileNameWithUnderscores= "Color Palette Library";
-      console.log("After: " + fileNameWithUnderscores); 
+      console.log("After: " + fileNameWithUnderscores);
     }
 
     // Update the document title with the file name (without extension)
