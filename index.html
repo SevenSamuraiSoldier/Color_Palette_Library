@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Color Palette Library</title>
+  <meta charset="UTF-8" />
+  <meta name="Code Snippets Manager" content="Single Page App" />
+  <link rel="icon" type="image/png" href="flavicon.png">
+  <meta name="keywords" content="HTML, CSS, JavaScript" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      padding-left: 20px;
+    }
+    .color-box {
+      height: 120px;
+      margin-top: 0.2em;
+      transition: 0.5s;
+      position: relative;
+    }
+    .color-box::after {
+      content: "Copy";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .color-box:hover::after {
+      opacity: 1;
+    }
+    .color-box:hover {
+      opacity: 65%;
+    }
+
+    .super-ultra-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content:flex-start;
+    }
+
+    .super-div-panel {
+      display: flex;
+      flex-direction: column;
+      background-color: #ffffff;
+      
+      box-sizing: border-box; /* Include padding and border in the element's total width */
+      padding-top: 20px; /* Add some padding for spacing */
+    }
+
+    .master-div-panel {
+      display: flex;
+      
+      background-color: #e4efe8;
+      border: 0.2em solid #8c8888; /* Adjust border width and color as needed */
+      border-radius: 1em; /* Sets a circular radius of 1em for all corners */
+      padding: 0.2em;
+      padding-left:0.8em;
+      padding-top: 0.2em;
+      padding-bottom: 0.8em;
+      flex-direction: row;
+      flex-wrap:nowrap;
+      
+    }
+
+    .palette-title {
+      text-align: center;
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+      width: 80%;
+    }
+
+    .palette-title-div,
+    .new-palette-btn-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .palette-title-div {
+      position: relative;
+      flex: 1;
+    }
+    
+    .color-div-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 1em;
+      position: relative;
+      flex: 1;
+    }
+
+    .add-button,
+    .new-palette-btn {
+      height: 100px;
+      border-width: 0em;
+      opacity: 0%;
+      transition: 0.5s;
+      background-color: #e4efe8;
+    }
+    .new-palette-btn {
+      width: 95%;
+      font-size: 1.5em;
+      height: 100px;
+    }
+    .add-button:hover,
+    .new-palette-btn:hover {
+      opacity: 100%;
+    }
+
+    input {
+      width:5em;
+      border-width: 0;
+      color: #5e6361;
+      font-weight: bold;
+      font-style: italic;
+      text-align: center;
+    }
+    .copy-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width:100%;
+      height:100%;
+      background-color: transparent;
+      border: none;
+      padding: 2px 5px;
+      font-size: 12px;
+      cursor: pointer;
+      z-index: 1;
+    }
+    #master-div-color-picker {
+      -webkit-appearance: none; /* Remove default appearance */
+      -moz-appearance: none;
+      appearance: none;
+      width: 2.5em; /* Set the size of the color picker */
+      height: 2.5em;
+      border:0.2em;
+      border-radius: 50%; /* Make the color picker circular */
+      background-color:transparent; /* Make the background transparent */
+      cursor: pointer; /* Change the cursor to a pointer */
+      position: absolute;
+      top: 0;
+      right: 1%;
+    }
+    #master-div-color-picker::-webkit-color-swatch-wrapper {
+      border-radius: 50%; /* Make the color swatch circular */
+    }
+
+    #master-div-color-picker::-webkit-color-swatch {
+      border-radius: 50%; /* Make the color swatch circular */
+    }
+
+    .palette-delete-btn {
+      position: absolute;
+      top: 110%;
+      right: 0%;
+      width:2em;
+      opacity: 0%;
+      transition: 0.1s;
+      background-color: transparent;
+      border: none;
+      z-index: 1;
+    }
+    .palette-delete-btn:hover {
+      opacity: 90%;
+      transform:  scale(2);
+    }
+
+    .color-delete-btn {
+      position: absolute;
+      top: 100%;
+      right: 0.5em;
+      width:2em;
+      opacity: 0%;
+      transition: 0.1s;
+      background-color: transparent;
+      font-size: 1.5em;
+      border: none;
+      
+    }
+    .color-delete-btn:hover {
+      opacity: 70%;
+      transform: scale(1.5);
+    }
+
+  </style>
+</head>
+<body>
+  <input type="color" id="master-div-color-picker" value="#e4efe8" title="Select Color for Palette Box">
+  <div class="super-ultra-panel">
+    <div class="super-div-panel">
+      <div class="palette-title-div">
+        <input type="text" class="palette-title" placeholder="Title">
+        <button class="palette-delete-btn" onclick="deletePalette()" style="font-size:1.5em;" title="Delete Palette">&#x1F5D1</button>
+      </div>
+      <div class="master-div-panel" id="master-div-panel">
+        <div class="color-div-panel">
+          <input type="text" id="hex-input" placeholder="Hex Color Code" first-use ="yes">
+          <div class="color-box" id="color-box"></div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="new-palette-btn-panel">
+      <button class="new-palette-btn" onclick="addNextPalette()" title="Add New Palette">+</button>
+    </div>
+  </div>
+  
+  
+  
+
+  <script>
+    //---Code to change the title of html with filename of .html file----------------
+    //Get the current file name
+    const currentFileName = window.location.href.split('/').pop();
+    // Remove the .html extension from the file name
+    const fileNameWithoutExtension = currentFileName.replace('.html', '');
+    // Replace spaces with underscores
+    var fileNameWithUnderscores = fileNameWithoutExtension.split('%20').join('_');
+    if(fileNameWithUnderscores.includes("index")){
+      fileNameWithUnderscores= "Color Palette Library";
+    }
+
+    // Update the document title with the file name (without extension)
+    document.title = fileNameWithUnderscores;
+    //--------------------------------------------------------------------------------
+    //---Setting Default color of the Color Panel------------------------------------
+    var masterDivColor ="#e4efe8";
+
+    //-----Application Closing Prompt-------------------------------------------------
+    function application_closing_prompt(e) {
+        if (!e) e = window.event;
+        //e.cancelBubble is supported by IE - this will kill the bubbling process.
+        e.cancelBubble = true;
+        e.returnValue = "You sure you want to leave?"; //This is displayed on the dialog
+
+        //e.stopPropagation works in Firefox.
+        if (e.stopPropagation) {
+          e.stopPropagation();
+          e.preventDefault();
+        }
+      }
+      window.onbeforeunload = application_closing_prompt;
+    //------------------------------------------------------------------------------
+    
+    //---Function to create color box, add btn after your presses Enter in Input---- 
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        if (event.target.type === 'text'&& !event.target.classList.contains("palette-title")) {
+          var inputField = event.target;
+          //console.log(inputField);
+          var hexCode = inputField.value.trim();
+          
+          //---CHeck for hex code format-------------------------------------------
+          if (hexCode ==="" || (hexCode.length === 7 && hexCode[0] === '#'))  {
+            //--old if condition-----
+            //(hexCode.length === 7 && hexCode[0] === '#')
+
+            //---To change blank input to white color as a placeholder color------
+            if (hexCode==""){
+              hexCode = "#ffffff";
+            }
+            //--Accessing the first-use flag of the color panel ------------------
+            var firstUseFlag = inputField.getAttribute("first-use");
+            //console.log("First Use Flag is: "+firstUseFlag);
+            
+            //---Getting access to master-panel--------------------------------
+            var masterPanel =inputField.parentNode.parentNode;
+            //var masterPanel = document.getElementById('master-div-panel'); //--Old code
+            //console.log(masterPanel);
+
+            //---Creating color-panel-div, color box-div ---------------------
+            var colorPanel = document.createElement ('div');
+            var colorBox = document.createElement('div');
+        
+            //----Clear all sibling elements below the input field----------------
+            //---This is default behaviour if the first-use flag is "no" ---------
+            while (inputField.nextSibling) {
+              inputField.parentNode.removeChild(inputField.nextSibling);
+            }
+
+            //-----Adding atrributes to colorbox----------------------------------
+            colorBox.style.backgroundColor = hexCode;
+            //colorBox.style.width = inputField.offsetWidth + 'px';
+            //colorBox.style.height = '200px';  //--Old code
+            colorBox.style.marginTop = '10px';
+            colorBox.style.display = 'block';
+            colorBox.style.borderRadius ="0.5em";
+            colorBox.setAttribute('class','color-box');
+
+            
+            //-----Adding atrributes to color panel div----------------------------------
+            colorPanel.setAttribute('class','color-div-panel');
+
+            //---Creating a new copy button element---------------------------------------
+            const copyButton = document.createElement('button');
+            copyButton.classList.add('copy-button');
+            copyButton.textContent = '';
+            copyButton.title = "Copy Color Code";
+            copyButton.setAttribute("color",hexCode);
+            copyButton.setAttribute("onclick","copyColor()");
+            
+            /*
+            copyButton.addEventListener('click', async () => {
+              try {
+                await navigator.clipboard.writeText(hexCode);
+                //alert(`Copied color: ${colorInput.value}`);
+                console.log(hexCode);
+              } catch (err) {
+                console.error('Failed to copy text: ', err);
+              }
+            });
+            */
+  
+            //---Creating new color delete btn & adding attributes --------------------------
+            //<button class="color-delete-btn" onclick="deleteColor()" title="Delete Color">&#x1F5D1</button>
+            const colorDeleteBtn = document.createElement('button');
+            colorDeleteBtn.classList.add('color-delete-btn');
+            colorDeleteBtn.innerHTML = '&#x1F5D1';
+            colorDeleteBtn.title = "Delete Color";
+            //copyButton.setAttribute("color",hexCode);
+            colorDeleteBtn.setAttribute("onclick","deleteColor()");
+            //---Setting the background color of the btn same as the color the inputfield value---
+            colorDeleteBtn.style.backgroundColor =hexCode; 
+            //----------------------------------------------------------------------------
+
+
+            /////////////////---Displaying Elements to Webpage---///////////////////////////////
+            //---Displaying copybutton over colorbox ------------------------------
+            colorBox.appendChild(copyButton);
+            //----Displaying colorbox & color delete button------------------------
+            //colorPanel.appendChild(colorDeleteBtn);
+            inputField.parentNode.insertBefore(colorDeleteBtn, inputField.nextSibling);
+            inputField.parentNode.insertBefore(colorBox, inputField.nextSibling);
+            //----Displaying color panel-------------------------------------------
+            masterPanel.appendChild(colorPanel);
+            //-----------------------------------------------------------------------------------
+            
+            //---Code to execute only when the first-use flag of colorpanel is "yes"-------------
+            if (firstUseFlag==="yes"){
+              //-----Creating add button on the first use of input field-------------
+              var addBtn = document.createElement('button');
+
+              //-----Adding atrributes to add button----------------------------------
+              addBtn.setAttribute('class','add-button');
+              addBtn.setAttribute('onclick','addNextColor()');
+              addBtn.style.fontSize = "5em";
+              addBtn.textContent ="+";
+              addBtn.title = "Add New Color";
+              
+              //----Displaying colo panel & add button---------------------------------
+              colorPanel.appendChild(addBtn);
+              inputField.setAttribute('first-use', 'no');
+              //console.log("FUF is: " +firstUseFlag);
+              
+              /*inputField.value ="";
+              inputField.placeholder = hexCode;
+              inputField.blur();
+              */
+            }
+            //---------------------------------------------------------------------------------
+
+            inputField.value ="";
+            inputField.placeholder = hexCode;
+            inputField.blur();
+          } else {
+            //console.log("Hex code format is not matching.")
+            alert("Hex Code Format is Not Matching. Make Sure it Starts with  # ");
+            inputField.value ="";
+            inputField.placeholder = "Enter hex color code with #";
+          }
+
+        }
+      }
+    });
+
+    //---Function to change Palette Title -----------------------------------------------------
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        if (event.target.type === 'text'&& event.target.classList.contains("palette-title")) {
+          var inputTitle = event.target;
+          var paletteTitle = inputTitle.value;
+          inputTitle.value="";
+          inputTitle.placeholder = paletteTitle;
+          inputTitle.blur();
+        }
+      }
+    });
+
+    //---Function to clear existing value of Palette Title after clicking on it---------------
+    document.addEventListener('click', function(event) {
+      if (event.target.classList.contains("palette-title")) {
+        event.target.value="";
+        event.target.placeholder ="";
+        //console.log("Clicked on the input field");
+      }
+    });
+
+
+  function addNextColor() {
+    //---Creating new input field---------------------------------------
+    var inputField = document.createElement('input');
+    //---Getting access to the button that called this function----------
+    var currentBtn = document.activeElement;
+    //---Getting acscess to main master-panel-div-----------------------
+    var masterPanel =currentBtn.parentNode.parentNode;
+    //console.log(currentBtn.parentNode.parentNode);
+    //var masterPanel = document.getElementById('master-div-panel'); //-Old code
+    //---Creating new color-panel-div----------------------------------
+    var colorPanel = document.createElement ('div');
+    
+    //---Set the type, id, and placeholder attributes--------------------
+    inputField.type = "text";
+    inputField.id = "hex-input";
+    inputField.placeholder = "Hex Color Code";
+    inputField.setAttribute("first-use","yes");
+
+    //---Setting class to colorpanel----------------------------------
+    colorPanel.setAttribute('class','color-div-panel');
+    //console.log(currentBtn);
+
+    //---Displaying new color-panel & new input field-------------------
+    colorPanel.appendChild(inputField);
+    masterPanel.appendChild(colorPanel);
+    
+
+    //---Hiding the current button (Old Code)-----------------------------
+    //currentBtn.style.display ="none";
+
+    //---Removing the button from the DOM------------------------------
+    const parentDiv =currentBtn.parentNode;
+    parentDiv.remove();
+    //currentBtn.remove();
+
+    //--Removing focus away from the input field-------------------------
+    inputField.focus();
+  }
+
+  
+  function addNextPalette(){
+    var currentAddBtn = document.activeElement;
+    //var ultraPanel = currentAddBtn.parentNode.parentNode;
+    
+    //----Added on 10th june------------------
+    var btnPanel =currentAddBtn.parentNode;
+    //console.log(btnPanel);
+
+    //console.log(ultraPanel);
+    
+    const htmlString = `
+      <div class="super-div-panel">
+        <div class="palette-title-div">
+          <input type="text" class="palette-title" placeholder="Title">
+          <button class="palette-delete-btn" onclick="deletePalette()" style="font-size:1.5em;" title="Delete Palette">&#x1F5D1</button>
+        </div>
+        <div class="master-div-panel" id="master-div-panel" style="background-color: ${masterDivColor};">
+          <div class="color-div-panel">
+            <button class="color-delete-btn" onclick="deleteColor()" title="Delete Color">&#x1F5D1</button>
+            <input type="text" id="hex-input" placeholder="Hex Color Code" first-use ="yes">
+            <div class="color-box" id="color-box"></div>
+          </div>
+        </div>
+      </div>
+    
+    <div class="new-palette-btn-panel">
+      <button class="new-palette-btn" onclick="addNextPalette()" title="Add New Palette">+</button>
+    </div>
+    `;
+
+    // Set the innerHTML of the parent element to the HTML string
+    //ultraPanel.innerHTML += htmlString;
+    //superDivPanel.insertAdjacentHTML('afterend', htmlString);
+    //btnPanel.insertAdjacentElement('afterend', newElement);
+    btnPanel.insertAdjacentHTML('afterend', htmlString);
+
+
+    //---Old Code---------------------------------------------------
+    //var buttonParent = currentAddBtn.parentNode;
+    //console.log(buttonParent);
+    //buttonParent.remove();
+    //console.log(buttonParent);
+
+  }
+
+  function deletePalette() {
+
+    var deletePaletteBtn = document.activeElement;
+    var parentPanel = deletePaletteBtn.parentNode.parentNode;
+    var nextSiblingDiv = parentPanel.nextSibling.nextSibling;
+    //alert("Are Sure You Want to Delete? ");
+    if (confirm("Are You Sure You Want To Delete This Palette? ")) {
+      parentPanel.remove();
+      nextSiblingDiv.remove();
+    } else {
+      // Code to execute if user clicks Cancel
+      console.log("Palette Deletion Canceled by User.");
+    }
+  }
+
+
+  function deleteColor(){
+    var deleteColorBtn = document.activeElement;
+    //alert("Error");
+    if (confirm("Are You Sure You Want To Delete This Color?")) {
+      deleteColorBtn.parentNode.remove();
+    } else {
+      // Code to execute if user clicks Cancel
+      console.log("Color Deletion Canceled by User.");
+    }
+  }
+
+  async function copyColor(){
+
+    var copybutton = document.activeElement;
+    //var buttonParent = copybutton.parentNode;
+    //console.log(buttonParent);
+    var color = copybutton.getAttribute("color");
+    //console.log(color);
+    await navigator.clipboard.writeText(color);
+    console.log(`Copied color: ${color}`);
+    //alert(`Copied color: ${color}`);
+  }
+
+  const masterDivColorPicker = document.getElementById("master-div-color-picker");
+  masterDivColorPicker.addEventListener("input",(e) =>{
+    var masterDiv = document.getElementsByClassName ("master-div-panel");
+    //audioPlayer.style.backgroundColor = tableColorPicker.value;
+
+    // Loop through the elements and change their background color
+    for (var i = 0; i < masterDiv.length; i++) {
+      masterDiv[i].style.backgroundColor = masterDivColorPicker.value;
+    }
+    masterDivColor =masterDivColorPicker.value;
+    //console.log("current color you picked is: "+masterDivColor);
+  });
+
+  </script>
+</body>
+</html>
